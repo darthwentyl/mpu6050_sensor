@@ -1,1 +1,1 @@
-# mpu6050_sensorse
+# mpu6050_sensor
