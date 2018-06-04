@@ -1,6 +1,6 @@
 #pragma once
 
-#include <data_structure/GyroscopeIfc.hpp>
+#include <data_structure/GyroscopeData.hpp>
 
 namespace interface
 {
@@ -8,11 +8,11 @@ namespace interface
 class GyroscopeIfc
 {
 public:
-    virtual ~GyroscopeData() = default;
+    virtual ~GyroscopeIfc() = default;
     
     virtual data_structure::GyroscopeData getData() = 0;
-    virtual void print() = 0;
-    virtual void read() = 0;
+    virtual void printData() = 0;
+    virtual void readData() = 0;
 };
     
 } // interface
