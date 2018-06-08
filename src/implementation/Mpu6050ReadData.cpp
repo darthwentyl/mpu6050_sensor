@@ -1,6 +1,6 @@
 #include <implementation/Mpu6050ReadData.hpp>
 
-#include <execption/FileDescriptorExecption.hpp>
+#include <execption/FileDescriptorException.hpp>
 
 #include <limits>
 #include <wiringPiI2C.h>
