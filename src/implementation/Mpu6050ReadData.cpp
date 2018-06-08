@@ -1,6 +1,6 @@
 #include <implementation/Mpu6050ReadData.hpp>
 
-#include <execption/FileDescriptorException.hpp>
+#include <exception/FileDescriptorException.hpp>
 
 #include <limits>
 #include <wiringPiI2C.h>
@@ -18,7 +18,7 @@ int32_t Mpu6050I2CReadData::readMpu6050Data(const int32_t addr)
 {
     if(fd == -1)
     {
-        throw FileDescriptorExecption("File descriptor is -1. Probably you don't  init it");
+        throw FileDescriptorException("File descriptor is -1. Probably you don't  init it");
     }
     
     int32_t value = 0;

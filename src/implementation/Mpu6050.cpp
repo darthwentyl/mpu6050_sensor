@@ -1,7 +1,7 @@
 #include <implementation/Mpu6050.hpp>
 #include <implementation/AccelerometerMpu6050.hpp>
 #include <implementation/GyroscopeMpu6050.hpp>
-#include <execption/Mpu6050NotFoundException.hpp>
+#include <exception/Mpu6050NotFoundException.hpp>
 
 #include <wiringPiI2C.h>
 #include <iostream>
