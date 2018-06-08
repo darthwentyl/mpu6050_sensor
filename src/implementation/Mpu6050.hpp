@@ -20,8 +20,9 @@ public:
     Mpu6050(const uint32_t addr);
     virtual ~Mpu6050() = default;
     
-    virtual void read();
-    virtual void print();
+    virtual void read() override;
+    virtual void print() override;
+    virtual void printHumanReadable() override;
     
 private:
     std::unique_ptr<interface::GyroscopeIfc> gyro;

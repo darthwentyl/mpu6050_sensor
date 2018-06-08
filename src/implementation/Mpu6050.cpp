@@ -51,5 +51,18 @@ void Mpu6050::print()
         std::cerr << e.what() << std::endl;
     }
 }
+
+void Mpu6050::printHumanReadable()
+{
+    try
+    {
+        acc->printHumanReadableData();
+        gyro->printHumanReadableData();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
+}
     
 } // implementation

@@ -14,6 +14,7 @@ int main()
     {
         sensor->read();
         sensor->print();
+        sensor->printHumanReadable();
         sleep(1);
     }
     return 0;

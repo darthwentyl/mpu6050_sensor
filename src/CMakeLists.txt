@@ -8,6 +8,7 @@ set(SOURCES
     ${PROJECT_SOURCES_DIR}/implementation/AccelerometerMpu6050.cpp
     ${PROJECT_SOURCES_DIR}/implementation/GyroscopeMpu6050.cpp
     ${PROJECT_SOURCES_DIR}/implementation/Mpu6050.cpp
+    ${PROJECT_SOURCES_DIR}/utils/AccelerometerHumanReadable.cpp
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})

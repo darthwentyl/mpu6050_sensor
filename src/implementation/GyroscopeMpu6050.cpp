@@ -23,6 +23,10 @@ void GyroscopeMpu6050::printData()
     std::cout << "gyroscop z(" << data.z << ")" << std::endl;
 }
 
+void GyroscopeMpu6050::printHumanReadableData()
+{
+}
+
 void GyroscopeMpu6050::readData()
 {
     data.x = readMpu6050Data(GYRO_X_ADDR);
