@@ -6,10 +6,10 @@
 namespace exception
 {
     
-class FileDescriptorException : public std::runtime_error
+class Mpu6050NotFoundException : public std::runtime_error
 {
 public:
-    FileDescriptorException(const std::string& msg) :
+    Mpu6050NotFoundException(const std::string& msg) :
         std::runtime_error(msg)
     {}
 };
