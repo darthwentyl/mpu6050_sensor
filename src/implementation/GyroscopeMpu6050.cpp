@@ -1,4 +1,5 @@
 #include <implementation/GyroscopeMpu6050.hpp>
+#include <utils/GyroscopeHumanReadable.hpp>
 
 #include <iostream>
 
@@ -6,10 +7,12 @@ namespace implementation
 {
 
 using namespace data_structure;
+using namespace utils;
 
 constexpr int32_t GYRO_X_ADDR = 0x43;
 constexpr int32_t GYRO_Y_ADDR = 0x45;
 constexpr int32_t GYRO_Z_ADDR = 0x47;
+constexpr float_t SCALE = 65.532f;
 
 GyroscopeMpu6050::GyroscopeMpu6050(const int32_t fd)
 {
@@ -18,13 +21,16 @@ GyroscopeMpu6050::GyroscopeMpu6050(const int32_t fd)
 
 void GyroscopeMpu6050::printData()
 {
-    std::cout << "gyroscop x(" << data.x << ")" << std::endl;
-    std::cout << "gyroscop y(" << data.y << ")" << std::endl;
-    std::cout << "gyroscop z(" << data.z << ")" << std::endl;
+    std::cout << "gyroscope x(" << data.x << ")" << std::endl;
+    std::cout << "gyroscope y(" << data.y << ")" << std::endl;
+    std::cout << "gyroscope z(" << data.z << ")" << std::endl;
 }
 
 void GyroscopeMpu6050::printHumanReadableData()
 {
+    GyroscopeHumanReadable humanReadable(data, SCALE);
+    std::cout << "gyroscope x = " << humanReadable.convertXRotation() << " degree" << std::endl;
+    std::cout << "gyroscope y = " << humanReadable.convertYRotation() << " degree" << std::endl;
 }
 
 void GyroscopeMpu6050::readData()
