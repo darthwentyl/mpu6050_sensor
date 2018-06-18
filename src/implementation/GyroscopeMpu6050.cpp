@@ -19,7 +19,7 @@ GyroscopeMpu6050::GyroscopeMpu6050(const int32_t fd)
     init(fd);
 }
 
-void GyroscopeMpu6050::printData()
+void GyroscopeMpu6050::printRawData()
 {
     std::cout << "gyroscope x(" << data.x << ")" << std::endl;
     std::cout << "gyroscope y(" << data.y << ")" << std::endl;
@@ -41,9 +41,19 @@ void GyroscopeMpu6050::readData()
     data.z = static_cast<float_t>(readMpu6050Data(GYRO_Z_ADDR));
 }
 
-GyroscopeData GyroscopeMpu6050::getData()
+GyroscopeData GyroscopeMpu6050::getRawData()
 {
     return data;
-}    
+}
+
+GyroscopeData GyroscopeMpu6050::getConvertedData()
+{
+    GyroscopeData convertedData;
+    GyroscopeHumanReadable humanReadable(SCALE);
+    convertedData.x = humanReadable.convert(data.x);
+    convertedData.y = humanReadable.convert(data.y);
+    convertedData.z = humanReadable.convert(data.z);
+    return convertedData;
+}
 
 } // implementation

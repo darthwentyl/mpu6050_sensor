@@ -43,8 +43,8 @@ void Mpu6050::print()
 {
     try
     {
-        acc->printData();
-        gyro->printData();
+        acc->printRawData();
+        gyro->printRawData();
     }
     catch(const std::exception& e)
     {

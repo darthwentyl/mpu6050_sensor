@@ -15,10 +15,11 @@ public:
     AccelerometerMpu6050(const int32_t fd);
     virtual ~AccelerometerMpu6050() = default;
 
-    virtual void printData() override;
+    virtual void printRawData() override;
     virtual void readData() override;
     virtual void printHumanReadableData() override;
-    virtual data_structure::AccelerometerData getData() override; 
+    virtual data_structure::AccelerometerData getRawData() override;
+    virtual data_structure::AccelerometerData getConvertedData() override; 
 
 private:
     data_structure::AccelerometerData data;

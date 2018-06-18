@@ -15,10 +15,11 @@ public:
     GyroscopeMpu6050(const int32_t fd);
     virtual ~GyroscopeMpu6050() = default;
     
-    virtual void printData() override;
+    virtual void printRawData() override;
     virtual void printHumanReadableData() override;
     virtual void readData() override;
-    virtual data_structure::GyroscopeData getData() override;
+    virtual data_structure::GyroscopeData getRawData() override;
+    virtual data_structure::GyroscopeData getConvertedData() override;
     
 private:
     data_structure::GyroscopeData data;

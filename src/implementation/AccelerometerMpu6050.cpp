@@ -22,7 +22,7 @@ AccelerometerMpu6050::AccelerometerMpu6050(const int32_t fd)
     init(fd);
 }
 
-void AccelerometerMpu6050::printData()
+void AccelerometerMpu6050::printRawData()
 {
     std::cout << "accelerometer x(" << data.x << ")" << std::endl;
     std::cout << "accelerometer y(" << data.y << ")" << std::endl;
@@ -44,9 +44,19 @@ void AccelerometerMpu6050::readData()
     data.z = static_cast<float_t>(readMpu6050Data(ACC_Z_ADDR));
 }
 
-AccelerometerData AccelerometerMpu6050::getData() 
+AccelerometerData AccelerometerMpu6050::getRawData() 
 {
     return data;
+}
+
+AccelerometerData AccelerometerMpu6050::getConvertedData() 
+{
+    AccelerometerData convertedData;
+    AccelerometerHumanReadable humanReadable(SCALE);
+    convertedData.x = humanReadable.convert(data.x);
+    convertedData.y = humanReadable.convert(data.y);
+    convertedData.z = humanReadable.convert(data.z);
+    return convertedData;
 }
 
 } // implementation
