@@ -8,7 +8,7 @@ namespace interface
 {
     class AccelerometerIfc;
     class GyroscopeIfc;
-}
+} // interface
 
 namespace implementation
 {
@@ -21,8 +21,9 @@ public:
     virtual ~Mpu6050() = default;
     
     virtual void read() override;
-    virtual void print() override;
+    virtual void printRaw() override;
     virtual void printHumanReadable() override;
+    virtual void printKalman() override;
     
 private:
     std::unique_ptr<interface::GyroscopeIfc> gyro;

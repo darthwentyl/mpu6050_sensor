@@ -10,6 +10,7 @@ set(SOURCES
     ${PROJECT_SOURCES_DIR}/implementation/Mpu6050.cpp
     ${PROJECT_SOURCES_DIR}/utils/AccelerometerHumanReadable.cpp
     ${PROJECT_SOURCES_DIR}/utils/GyroscopeHumanReadable.cpp
+    ${PROJECT_SOURCES_DIR}/kalman_filter/KalmanFilterMpu6050.cpp
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})

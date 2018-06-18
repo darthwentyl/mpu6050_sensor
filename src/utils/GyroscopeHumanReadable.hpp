@@ -13,8 +13,6 @@ public:
     float_t convert(const float_t data);
 
 private:
-    float_t radToDegree(const float_t angle);
-
     float_t scale;
 };
 

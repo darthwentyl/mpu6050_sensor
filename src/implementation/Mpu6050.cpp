@@ -39,7 +39,7 @@ void Mpu6050::read()
     }
 }
     
-void Mpu6050::print()
+void Mpu6050::printRaw()
 {
     try
     {
@@ -63,6 +63,10 @@ void Mpu6050::printHumanReadable()
     {
         std::cerr << e.what() << std::endl;
     }
+}
+
+void Mpu6050::printKalman()
+{
 }
     
 } // implementation

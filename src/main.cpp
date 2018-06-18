@@ -12,9 +12,11 @@ int main()
     std::unique_ptr<SensorIfc> sensor(new Mpu6050(MPU_6050_ADDR));
     while(1)
     {
+        system("clear");
         sensor->read();
-        sensor->print();
+        sensor->printRaw();
         sensor->printHumanReadable();
+        sensor->printKalman();
         sleep(1);
     }
     return 0;
