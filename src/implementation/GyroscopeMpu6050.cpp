@@ -36,9 +36,9 @@ void GyroscopeMpu6050::printHumanReadableData()
 
 void GyroscopeMpu6050::readData()
 {
-    data.x = readMpu6050Data(GYRO_X_ADDR);
-    data.y = readMpu6050Data(GYRO_Y_ADDR);
-    data.z = readMpu6050Data(GYRO_Z_ADDR);
+    data.x = static_cast<float_t>(readMpu6050Data(GYRO_X_ADDR));
+    data.y = static_cast<float_t>(readMpu6050Data(GYRO_Y_ADDR));
+    data.z = static_cast<float_t>(readMpu6050Data(GYRO_Z_ADDR));
 }
 
 GyroscopeData GyroscopeMpu6050::getData()

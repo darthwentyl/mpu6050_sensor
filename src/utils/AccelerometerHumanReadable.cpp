@@ -8,9 +8,9 @@ AccelerometerHumanReadable::AccelerometerHumanReadable(const float_t scale) :
 {}
 
 
-float_t AccelerometerHumanReadable::convert(const int32_t data)
+float_t AccelerometerHumanReadable::convert(const float_t data)
 {
-    return float_t(data) / scale;
+    return data / scale;
 }
 
 } // utils

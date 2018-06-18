@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cstdint>
 #include <cfloat>
 #include <cmath>
 
@@ -12,7 +11,7 @@ class AccelerometerHumanReadable
 public:
     AccelerometerHumanReadable(const float_t scale);
     
-    float_t convert(const int32_t data);
+    float_t convert(const float_t data);
     
 private:
     float_t scale;

@@ -1,6 +1,7 @@
 #pragma once
 
-#include <stdint.h>
+#include <cfloat>
+#include <cmath>
 
 namespace data_structure
 {
@@ -8,14 +9,14 @@ namespace data_structure
 struct AccelerometerData
 {
     AccelerometerData() :
-        x(0),
-        y(0),
-        z(0)
+        x(0.0f),
+        y(0.0f),
+        z(0.0f)
     {}
     
-    int32_t x;
-    int32_t y;
-    int32_t z;
+    float_t x;
+    float_t y;
+    float_t z;
 };
     
 } // data_structure

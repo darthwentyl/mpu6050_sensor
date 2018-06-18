@@ -39,9 +39,9 @@ void AccelerometerMpu6050::printHumanReadableData()
 
 void AccelerometerMpu6050::readData()
 {
-    data.x = readMpu6050Data(ACC_X_ADDR);
-    data.y = readMpu6050Data(ACC_Y_ADDR);
-    data.z = readMpu6050Data(ACC_Z_ADDR);
+    data.x = static_cast<float_t>(readMpu6050Data(ACC_X_ADDR));
+    data.y = static_cast<float_t>(readMpu6050Data(ACC_Y_ADDR));
+    data.z = static_cast<float_t>(readMpu6050Data(ACC_Z_ADDR));
 }
 
 AccelerometerData AccelerometerMpu6050::getData() 
