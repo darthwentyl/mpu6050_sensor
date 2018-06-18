@@ -11,6 +11,8 @@ set(SOURCES
     ${PROJECT_SOURCES_DIR}/utils/AccelerometerHumanReadable.cpp
     ${PROJECT_SOURCES_DIR}/utils/GyroscopeHumanReadable.cpp
     ${PROJECT_SOURCES_DIR}/kalman_filter/KalmanFilterMpu6050.cpp
+    ${PROJECT_SOURCES_DIR}/kalman_filter/CalculationRoll.cpp
+    ${PROJECT_SOURCES_DIR}/kalman_filter/CalculationPitch.cpp
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
