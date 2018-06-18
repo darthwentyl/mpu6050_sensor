@@ -31,9 +31,10 @@ void AccelerometerMpu6050::printData()
 
 void AccelerometerMpu6050::printHumanReadableData()
 {
-    std::cout << "accelerometer x = " << AccelerometerHumanReadable::convert(data.x, SCALE) << "g" << std::endl;
-    std::cout << "accelerometer y = " << AccelerometerHumanReadable::convert(data.y, SCALE) << "g" << std::endl;
-    std::cout << "accelerometer z = " << AccelerometerHumanReadable::convert(data.z, SCALE) << "g" << std::endl;
+    AccelerometerHumanReadable humanReadable(SCALE);
+    std::cout << "accelerometer x = " << humanReadable.convert(data.x) << "g" << std::endl;
+    std::cout << "accelerometer y = " << humanReadable.convert(data.y) << "g" << std::endl;
+    std::cout << "accelerometer z = " << humanReadable.convert(data.z) << "g" << std::endl;
 }
 
 void AccelerometerMpu6050::readData()

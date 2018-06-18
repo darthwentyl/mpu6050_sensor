@@ -10,7 +10,12 @@ namespace utils
 class AccelerometerHumanReadable
 {
 public:
-    static float_t convert(const int32_t data, const float_t scale);
+    AccelerometerHumanReadable(const float_t scale);
+    
+    float_t convert(const int32_t data);
+    
+private:
+    float_t scale;
 };
 
 } // utils

@@ -28,9 +28,10 @@ void GyroscopeMpu6050::printData()
 
 void GyroscopeMpu6050::printHumanReadableData()
 {
-    GyroscopeHumanReadable humanReadable(data, SCALE);
-    std::cout << "gyroscope x = " << humanReadable.convertXRotation() << " degree" << std::endl;
-    std::cout << "gyroscope y = " << humanReadable.convertYRotation() << " degree" << std::endl;
+    GyroscopeHumanReadable humanReadable(SCALE);
+    std::cout << "gyroscope x = " << humanReadable.convert(data.x) << " degree/sec" << std::endl;
+    std::cout << "gyroscope y = " << humanReadable.convert(data.y) << " degree/sec" << std::endl;
+    std::cout << "gyroscope z = " << humanReadable.convert(data.z) << " degree/sec" << std::endl;
 }
 
 void GyroscopeMpu6050::readData()
