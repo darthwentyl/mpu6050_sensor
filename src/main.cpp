@@ -1,5 +1,9 @@
 #include <iostream>
+#include <chrono>
+#include <thread>
+
 #include <unistd.h>
+
 #include <implementation/Mpu6050.hpp>
 
 using namespace implementation;
@@ -9,6 +13,7 @@ constexpr int32_t MPU_6050_ADDR = 0x68;
 
 int main()
 {
+    using namespace std::chrono_literals;
     std::unique_ptr<SensorIfc> sensor(new Mpu6050(MPU_6050_ADDR));
     while(1)
     {
@@ -17,7 +22,7 @@ int main()
         sensor->printRaw();
         sensor->printHumanReadable();
         sensor->printKalman();
-        sleep(1);
+        std::this_thread::sleep_for(100ms);
     }
     return 0;
 }
