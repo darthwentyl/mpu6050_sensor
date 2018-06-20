@@ -8,6 +8,7 @@ namespace interface
 {
     class AccelerometerIfc;
     class GyroscopeIfc;
+    class KalmanFilterIfc;
 } // interface
 
 namespace implementation
@@ -28,6 +29,7 @@ public:
 private:
     std::unique_ptr<interface::GyroscopeIfc> gyro;
     std::unique_ptr<interface::AccelerometerIfc> acc;
+    std::unique_ptr<interface::KalmanFilterIfc> kalman;
     int32_t fd;
 };
     

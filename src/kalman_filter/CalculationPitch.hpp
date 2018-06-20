@@ -2,35 +2,37 @@
 
 #include <kalman_filter/PredictionMatrix.hpp>
 #include <kalman_filter/KalmanAmplifierMatrix.hpp>
+#include <kalman_filter/CovarianceMatrix.hpp>
 
 #include <cfloat>
 #include <cmath>
 
-namespace data_structure
+namespace interface
 {
-    class AccelerometerData;
-    class GyroscopeData;
+    class AccelerometerIfc;
+    class GyroscopeIfc;
 
 } // data_structure
 
 namespace kalman_filter
 {
 
-    class PredictionMatrix;
-    class KalmanAmplifierMatrix;
-
 class CalculationPitch
 {
 public:
-    CalculationPitch(data_structure::AccelerometerData& acc, data_structure::GyroscopeData& gyro, const float_t delta_time);
+    CalculationPitch(interface::AccelerometerIfc& acc, interface::GyroscopeIfc& gyro, const float_t& delta_time);
     float_t calculate();
     
 private:
-    data_structure::AccelerometerData& acc;
-    data_structure::GyroscopeData& gyro;
+    interface::AccelerometerIfc& acc;
+    interface::GyroscopeIfc& gyro;
+    
     PredictionMatrix prediction;
     KalmanAmplifierMatrix kalmanAmplifier;
+    CovarianceMatrix covariance;
+    
     const float_t deltaTime;
+    const float_t measurement;
 };
 
 } // kalman_filter

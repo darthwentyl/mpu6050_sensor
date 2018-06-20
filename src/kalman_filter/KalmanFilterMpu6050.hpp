@@ -1,9 +1,9 @@
 #pragma once
 
 #include <interface/KalmanFilterIfc.hpp>
-#include <kalman_filter/PredictionMatrix.hpp>
-#include <kalman_filter/KalmanAmplifierMatrix.hpp>
-#include <kalman_filter/CovarianceMatrix.hpp>
+
+#include <kalman_filter/CalculationPitch.hpp>
+#include <kalman_filter/CalculationRoll.hpp>
 
 #include <cfloat>
 #include <cmath>
@@ -31,10 +31,8 @@ private:
 
     interface::AccelerometerIfc& acc;
     interface::GyroscopeIfc& gyro;
-    
-    PredictionMatrix prediction;
-    KalmanAmplifierMatrix kalmanAmplifier;
-    CovarianceMatrix covariance;
+    CalculationPitch pitch;
+    CalculationRoll roll;
 };
 
 } // kalman_filter
