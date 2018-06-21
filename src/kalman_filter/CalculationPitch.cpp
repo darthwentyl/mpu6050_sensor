@@ -1,13 +1,11 @@
 #include <kalman_filter/CalculationPitch.hpp>
-#include <kalman_filter/KalmanAmplifierMatrix.hpp>
-#include <kalman_filter/EPredictionCell.hpp>
-#include <kalman_filter/ECovarianceCell.hpp>
+
 #include <interface/AccelerometerIfc.hpp>
 #include <interface/GyroscopeIfc.hpp>
-#include <data_structure/AccelerometerData.hpp>
-#include <data_structure/GyroscopeData.hpp>
 
 #include <iostream>
+
+#define CELL(x) static_cast<uint32_t>(ECovariance::x)
 
 namespace kalman_filter
 {
@@ -19,74 +17,60 @@ constexpr float_t CONF_ANGLE = 0.001f;
 constexpr float_t CONF_BIAS = 0.003f;
 constexpr float_t CONF_MEASUREMENT = 0.03f;
 
+enum class ECovariance : uint32_t
+{
+    ANGLE = 0,
+    BIAS = 1
+};
+
 CalculationPitch::CalculationPitch(AccelerometerIfc& acc, GyroscopeIfc& gyro, const float_t& deltaTime) :
     acc(acc),
     gyro(gyro),
-    covariance(CONF_ANGLE, CONF_BIAS),
-    deltaTime(deltaTime),
-    measurement(CONF_MEASUREMENT)
-{}
+    dt(deltaTime),
+    r(CONF_MEASUREMENT),
+    s(0.0f),
+    y(0.0f),
+    K_rate(0.0f),
+    K_angle(0.0f),
+    K_bias(0.0f)
+{
+    Q[CELL(ANGLE)] = CONF_ANGLE;
+    Q[CELL(BIAS)] = CONF_BIAS;
+}
 
 float_t CalculationPitch::calculate()
 {
     AccelerometerData accData = acc.getConvertedData();
     GyroscopeData gyroData = gyro.getConvertedData();
     
-    float_t accPitch = -(atan2f(accData.x, sqrt(accData.y * accData.y + accData.z * accData.z) * 180.0f) / M_PI);
-    std::cout << "accPitch " << accPitch << std::endl;
-    kalmanAmplifier.set(EKalmanAmplifierCell::RATE, gyroData.y - kalmanAmplifier.get(EKalmanAmplifierCell::BIAS));
+    float_t accPitch = -(atan2f(accData.x, sqrt(accData.y * accData.y + accData.z * accData.z)) * 180.0f) / M_PI;
+ 
+    K_rate = gyroData.y - K_bias;
+    K_angle += dt * K_rate;
     
-    float_t kalmanAngle = kalmanAmplifier.get(EKalmanAmplifierCell::RATE);
-    kalmanAngle += deltaTime * kalmanAmplifier.get(EKalmanAmplifierCell::RATE);
-    kalmanAmplifier.set(EKalmanAmplifierCell::ANGLE, kalmanAngle);
+    P[0][0] += dt * (dt*P[1][1] - P[0][1] - P[1][0] + Q[CELL(ANGLE)]);
+    P[0][1] -= dt * P[1][1];
+    P[1][0] -= dt * P[1][1];
+    P[1][1] += Q[CELL(BIAS)] * dt;
     
-    float_t newPrediction00 = prediction.get(EPredictionCell::POS_0x0);
-    newPrediction00 +=  deltaTime * (prediction.get(EPredictionCell::POS_1x1) + prediction.get(EPredictionCell::POS_0x1)) + covariance.get(ECovarianceCell::ANGLE) * deltaTime;
-    prediction.set(EPredictionCell::POS_0x0, newPrediction00);
+    s = P[0][0] + r;
     
-    float_t newPrediction01 = prediction.get(EPredictionCell::POS_0x1);
-    newPrediction01 -= deltaTime * prediction.get(EPredictionCell::POS_1x1);
-    prediction.set(EPredictionCell::POS_0x1, newPrediction01);
+    K[0] = P[0][0] / s;
+    K[1] = P[1][0] / s;
     
-    float_t newPrediction10 = prediction.get(EPredictionCell::POS_1x0);
-    newPrediction10 -= deltaTime * prediction.get(EPredictionCell::POS_1x1);
-    prediction.set(EPredictionCell::POS_1x0, newPrediction10);
+    y = accPitch - K_angle;
     
-    float_t newPrediction11 = prediction.get(EPredictionCell::POS_1x1);
-    newPrediction11 += covariance.get(ECovarianceCell::BIAS) * deltaTime;
-    prediction.set(EPredictionCell::POS_1x1, newPrediction11);
+    K_angle += K[0] * y;
+    K_bias += K[1] * y;
     
-    float_t S = prediction.get(EPredictionCell::POS_0x0) + measurement; // czym jest S???
+    float_t P00 = P[0][0];
+    float_t P01 = P[0][1];
     
-    float_t newKalmanAmplifier0 = prediction.get(EPredictionCell::POS_0x0) / S;
-    float_t newKalmanAmplifier1 = prediction.get(EPredictionCell::POS_1x0) / S;
+    P[0][0] -= K[0] * P00;
+    P[0][1] -= K[0] * P01;
+    P[1][0] -= K[1] * P00;
+    P[1][1] -= K[1] * P01;
     
-    float_t newValue = accPitch - kalmanAmplifier.get(EKalmanAmplifierCell::ANGLE);
-    
-    float_t newKalmanAmplifierAngle = kalmanAmplifier.get(EKalmanAmplifierCell::ANGLE);
-    newKalmanAmplifierAngle += newKalmanAmplifier0 * newValue;
-    kalmanAmplifier.set(EKalmanAmplifierCell::ANGLE, newKalmanAmplifierAngle);
-    
-    float_t newKalmanAmplifierBias = kalmanAmplifier.get(EKalmanAmplifierCell::BIAS);
-    newKalmanAmplifierBias += newKalmanAmplifier1 * newValue;
-    kalmanAmplifier.set(EKalmanAmplifierCell::BIAS, newKalmanAmplifierBias);
-    
-    newPrediction00 = prediction.get(EPredictionCell::POS_0x0);
-    newPrediction00 -=  newKalmanAmplifier0 * prediction.get(EPredictionCell::POS_0x0);
-    prediction.set(EPredictionCell::POS_0x0, newPrediction00);
-    
-    newPrediction01 = prediction.get(EPredictionCell::POS_0x1);
-    newPrediction01 -= newKalmanAmplifier0 * prediction.get(EPredictionCell::POS_0x1);
-    prediction.set(EPredictionCell::POS_0x1, newPrediction01);
-    
-    newPrediction10 = prediction.get(EPredictionCell::POS_1x0);
-    newPrediction10 -= newKalmanAmplifier1 * prediction.get(EPredictionCell::POS_1x0);;
-    prediction.set(EPredictionCell::POS_1x0, newPrediction10);
-    
-    newPrediction11 = prediction.get(EPredictionCell::POS_1x1);
-    newPrediction11 -= newKalmanAmplifier1 * prediction.get(EPredictionCell::POS_1x1);
-    prediction.set(EPredictionCell::POS_1x1, newPrediction11);
-
-    return kalmanAmplifier.get(EKalmanAmplifierCell::ANGLE);
+    return K_angle;
 }
 } // kalman_filter

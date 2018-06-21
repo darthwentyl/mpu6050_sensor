@@ -12,7 +12,7 @@ using namespace utils;
 constexpr int32_t GYRO_X_ADDR = 0x43;
 constexpr int32_t GYRO_Y_ADDR = 0x45;
 constexpr int32_t GYRO_Z_ADDR = 0x47;
-constexpr float_t SCALE = 65.532f;
+constexpr float_t SCALE = 131.064f;
 
 GyroscopeMpu6050::GyroscopeMpu6050(const int32_t fd)
 {
