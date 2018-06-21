@@ -13,6 +13,7 @@ set(SOURCES
     ${PROJECT_SOURCES_DIR}/kalman_filter/KalmanFilterMpu6050.cpp
     ${PROJECT_SOURCES_DIR}/kalman_filter/CalculationRoll.cpp
     ${PROJECT_SOURCES_DIR}/kalman_filter/CalculationPitch.cpp
+    ${PROJECT_SOURCES_DIR}/kalman_filter/KalmanMatrixOperation.cpp
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})

@@ -9,16 +9,11 @@ namespace kalman_filter
 
 using namespace interface;
 
-constexpr float_t DELTA_TIME = 0.1f;
-//constexpr float_t CONF_ANGLE = 0.001f;
-//constexpr float_t CONF_BIAS = 0.003f;
-//constexpr float_t CONF_MEASUREMENT = 0.03f;
-
 KalmanFilterMpu6050::KalmanFilterMpu6050(interface::AccelerometerIfc& acc, interface::GyroscopeIfc& gyro) :
     acc(acc),
     gyro(gyro),
-    pitch(acc, gyro, DELTA_TIME)
-//    roll(acc, gyro, DELTA_TIME)
+    pitch(acc, gyro),
+    roll(acc, gyro)
 {}
 
 void KalmanFilterMpu6050::update()
@@ -30,6 +25,7 @@ void KalmanFilterMpu6050::update()
 void KalmanFilterMpu6050::updatePitch()
 {
     std::cout << "pitch = " << pitch.calculate() << std::endl;
+    std::cout << "roll = " << roll.calculate() <<std::endl;
 }
 
 void KalmanFilterMpu6050::updateRoll()
