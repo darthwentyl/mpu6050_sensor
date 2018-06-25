@@ -5,12 +5,11 @@
 
 namespace data_structure
 {
-    
-struct AccelerometerData
+
+struct OrientationData
 {
-    float_t x = 0.0f;
-    float_t y = 0.0f;
-    float_t z = 0.0f;
+    float_t roll = 0.0f;
+    float_t pitch = 0.0f;
 };
-    
+
 } // data_structure

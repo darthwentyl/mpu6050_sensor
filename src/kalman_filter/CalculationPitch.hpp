@@ -23,6 +23,7 @@ private:
     interface::GyroscopeIfc& gyro;
     
     KalmanMatrixOperation matrixOperation;
+    float_t pitch;
 };
 
 } // kalman_filter

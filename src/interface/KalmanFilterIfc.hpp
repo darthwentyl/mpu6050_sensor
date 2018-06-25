@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace interface
 {
 
@@ -9,6 +11,7 @@ public:
     virtual ~KalmanFilterIfc() = default;
     
     virtual void update() = 0;
+    virtual std::string get() = 0;
 };
 
 } // interface

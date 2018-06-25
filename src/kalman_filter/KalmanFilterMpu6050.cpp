@@ -1,6 +1,7 @@
 #include <kalman_filter/KalmanFilterMpu6050.hpp>
 #include <interface/AccelerometerIfc.hpp>
 #include <interface/GyroscopeIfc.hpp>
+#include <ser_des/SerDesOrientation.hpp>
 
 #include <iostream>
 
@@ -8,12 +9,14 @@ namespace kalman_filter
 {
 
 using namespace interface;
+using namespace ser_des;
+using namespace data_structure;
 
 KalmanFilterMpu6050::KalmanFilterMpu6050(interface::AccelerometerIfc& acc, interface::GyroscopeIfc& gyro) :
     acc(acc),
     gyro(gyro),
-    pitch(acc, gyro),
-    roll(acc, gyro)
+    pitchCalc(acc, gyro),
+    rollCalc(acc, gyro)
 {}
 
 void KalmanFilterMpu6050::update()
@@ -24,12 +27,19 @@ void KalmanFilterMpu6050::update()
 
 void KalmanFilterMpu6050::updatePitch()
 {
-    std::cout << "pitch = " << pitch.calculate() << std::endl;
-    std::cout << "roll = " << roll.calculate() <<std::endl;
+    orientation.pitch = pitchCalc.calculate();
+    std::cout << "pitch = " << orientation.pitch << std::endl;
 }
 
 void KalmanFilterMpu6050::updateRoll()
 {
+    orientation.roll = rollCalc.calculate();
+    std::cout << "roll = " << orientation.roll <<std::endl;
+}
+
+std::string KalmanFilterMpu6050::get()
+{
+    return SerDesOrientation::serialize(orientation);
 }
 
 } // kalman_filter

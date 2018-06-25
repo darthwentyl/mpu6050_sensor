@@ -28,4 +28,5 @@ float_t CalculationPitch::calculate()
  
     return matrixOperation.get(accPitch, gyroData.y, DELTA_TIME);
 }
+
 } // kalman_filter

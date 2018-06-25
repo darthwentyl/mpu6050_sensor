@@ -14,6 +14,7 @@ set(SOURCES
     ${PROJECT_SOURCES_DIR}/kalman_filter/CalculationRoll.cpp
     ${PROJECT_SOURCES_DIR}/kalman_filter/CalculationPitch.cpp
     ${PROJECT_SOURCES_DIR}/kalman_filter/KalmanMatrixOperation.cpp
+    ${PROJECT_SOURCES_DIR}/ser_des/SerDesOrientation.cpp
 )
 
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})

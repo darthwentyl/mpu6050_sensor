@@ -8,15 +8,9 @@ namespace data_structure
     
 struct GyroscopeData
 {
-    GyroscopeData() :
-        x(0.0f),
-        y(0.0f),
-        z(0.0f)
-    {}
-    
-    float_t x;
-    float_t y;
-    float_t z;
+    float_t x = 0.0f;
+    float_t y = 0.0f;
+    float_t z = 0.0f;
 };
     
 } // data_structure

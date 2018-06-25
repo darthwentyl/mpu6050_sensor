@@ -1,10 +1,11 @@
 #pragma once
 
 #include <interface/KalmanFilterIfc.hpp>
-
+#include <data_structure/OrientationData.hpp>
 #include <kalman_filter/CalculationPitch.hpp>
 #include <kalman_filter/CalculationRoll.hpp>
 
+#include <string>
 #include <cfloat>
 #include <cmath>
 
@@ -24,6 +25,7 @@ public:
     virtual ~KalmanFilterMpu6050() = default;
 
     virtual void update() override;
+    virtual std::string get() override;
 
 private:
     void updatePitch();
@@ -31,8 +33,9 @@ private:
 
     interface::AccelerometerIfc& acc;
     interface::GyroscopeIfc& gyro;
-    CalculationPitch pitch;
-    CalculationRoll roll;
+    CalculationPitch pitchCalc;
+    CalculationRoll rollCalc;
+    data_structure::OrientationData orientation;
 };
 
 } // kalman_filter

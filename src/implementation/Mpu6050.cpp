@@ -3,6 +3,8 @@
 #include <implementation/GyroscopeMpu6050.hpp>
 #include <kalman_filter/KalmanFilterMpu6050.hpp>
 #include <exception/Mpu6050NotFoundException.hpp>
+#include <data_structure/OrientationData.hpp>
+#include <ser_des/SerDesOrientation.hpp>
 
 #include <wiringPiI2C.h>
 #include <iostream>
@@ -13,6 +15,8 @@ namespace implementation
 
 using namespace exception;
 using namespace kalman_filter;
+using namespace data_structure;
+using namespace ser_des;
 
 Mpu6050::Mpu6050(const uint32_t addr) : 
     gyro(nullptr),
@@ -71,7 +75,10 @@ void Mpu6050::printHumanReadable()
 
 void Mpu6050::printKalman()
 {
+    OrientationData orientation;
     kalman->update();
+    orientation = SerDesOrientation::deserialize(kalman->get());
+    std::cout << "deserialize pitch: " << orientation.pitch << " deserialize roll: " << orientation.roll << std::endl;
 }
     
 } // implementation
