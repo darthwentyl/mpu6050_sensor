@@ -3,12 +3,12 @@
 #include <interface/SensorIfc.hpp>
 
 #include <memory>
+#include <string>
 
 namespace interface
 {
     class AccelerometerIfc;
     class GyroscopeIfc;
-    class KalmanFilterIfc;
 } // interface
 
 namespace implementation
@@ -22,14 +22,12 @@ public:
     virtual ~Mpu6050() = default;
     
     virtual void read() override;
-    virtual void printRaw() override;
-    virtual void printHumanReadable() override;
-    virtual void printKalman() override;
+    virtual std::string getRawData() override;
+    virtual std::string getNormalizeData() override;
     
 private:
     std::unique_ptr<interface::GyroscopeIfc> gyro;
     std::unique_ptr<interface::AccelerometerIfc> acc;
-    std::unique_ptr<interface::KalmanFilterIfc> kalman;
     int32_t fd;
 };
     

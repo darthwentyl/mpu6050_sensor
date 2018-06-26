@@ -6,11 +6,11 @@
 namespace utils
 {
 
-class GyroscopeHumanReadable
+class GyroscopeNormalize
 {
 public:
-    GyroscopeHumanReadable(const float_t scale);
-    float_t convert(const float_t data);
+    GyroscopeNormalize(const float_t scale);
+    float_t normalize(const float_t data);
 
 private:
     float_t scale;

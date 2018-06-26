@@ -29,6 +29,14 @@ KalmanMatrixOperation::KalmanMatrixOperation() :
 
 float_t KalmanMatrixOperation::get(const float_t newAngle, const float_t newRate, const float_t& dt)
 {
+    calcCovarianceErrorMatrix(newRate, dt);
+    updateKalmanGainMatrix();
+    updateCovarianceErrorMatrix(newAngle);    
+    return K_angle;
+}
+
+void KalmanMatrixOperation::calcCovarianceErrorMatrix(const float_t newRate, const float_t dt)
+{
     K_rate = newRate - K_bias;
     K_angle += dt * K_rate;
     
@@ -36,12 +44,10 @@ float_t KalmanMatrixOperation::get(const float_t newAngle, const float_t newRate
     P[0][1] -= dt * P[1][1];
     P[1][0] -= dt * P[1][1];
     P[1][1] += Q[CELL(BIAS)] * dt;
-    
-    s = P[0][0] + r;
-    
-    K[0] = P[0][0] / s;
-    K[1] = P[1][0] / s;
-    
+}
+
+void KalmanMatrixOperation::updateCovarianceErrorMatrix(const float_t newAngle)
+{
     y = newAngle - K_angle;
     
     K_angle += K[0] * y;
@@ -54,8 +60,14 @@ float_t KalmanMatrixOperation::get(const float_t newAngle, const float_t newRate
     P[0][1] -= K[0] * P01;
     P[1][0] -= K[1] * P00;
     P[1][1] -= K[1] * P01;
+}
+
+void KalmanMatrixOperation::updateKalmanGainMatrix()
+{
+    s = P[0][0] + r;
     
-    return K_angle;
+    K[0] = P[0][0] / s;
+    K[1] = P[1][0] / s;
 }
 
 } // kalman_filter

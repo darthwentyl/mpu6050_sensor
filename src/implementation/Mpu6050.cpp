@@ -3,8 +3,8 @@
 #include <implementation/GyroscopeMpu6050.hpp>
 #include <kalman_filter/KalmanFilterMpu6050.hpp>
 #include <exception/Mpu6050NotFoundException.hpp>
-#include <data_structure/OrientationData.hpp>
-#include <ser_des/SerDesOrientation.hpp>
+#include <data_structure/Mpu6050Data.hpp>
+#include <ser_des/SerDesMpu6050Data.hpp>
 
 #include <wiringPiI2C.h>
 #include <iostream>
@@ -20,8 +20,7 @@ using namespace ser_des;
 
 Mpu6050::Mpu6050(const uint32_t addr) : 
     gyro(nullptr),
-    acc(nullptr),
-    kalman(nullptr)
+    acc(nullptr)
 {
     fd =  wiringPiI2CSetup(addr);
     if(fd == -1)
@@ -30,7 +29,6 @@ Mpu6050::Mpu6050(const uint32_t addr) :
     }
     gyro = std::make_unique<GyroscopeMpu6050>(fd);
     acc = std::make_unique<AccelerometerMpu6050>(fd);
-    kalman = std::make_unique<KalmanFilterMpu6050>(*acc.get(), *gyro.get());
     wiringPiI2CWriteReg8(fd,0x6B,0x00);//disable sleep mode
 }
     
@@ -47,38 +45,20 @@ void Mpu6050::read()
     }
 }
     
-void Mpu6050::printRaw()
+std::string Mpu6050::getRawData()
 {
-    try
-    {
-        acc->printRawData();
-        gyro->printRawData();
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
+    Mpu6050Data data;
+    data.acc = acc->getRawData();
+    data.gyro = gyro->getRawData();
+    return SerDesMpu6050Data::serialize(data);
 }
 
-void Mpu6050::printHumanReadable()
+std::string Mpu6050::getNormalizeData()
 {
-    try
-    {
-        acc->printHumanReadableData();
-        gyro->printHumanReadableData();
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-}
-
-void Mpu6050::printKalman()
-{
-    OrientationData orientation;
-    kalman->update();
-    orientation = SerDesOrientation::deserialize(kalman->get());
-    std::cout << "deserialize pitch: " << orientation.pitch << " deserialize roll: " << orientation.roll << std::endl;
+    Mpu6050Data data;
+    data.acc = acc->getNormalizeData();
+    data.gyro = gyro->getNormalizeData();
+    return SerDesMpu6050Data::serialize(data);
 }
     
 } // implementation

@@ -6,12 +6,12 @@
 namespace utils
 {
 
-class AccelerometerHumanReadable
+class AccelerometerNormalize
 {
 public:
-    AccelerometerHumanReadable(const float_t scale);
+    AccelerometerNormalize(const float_t scale);
     
-    float_t convert(const float_t data);
+    float_t normalize(const float_t data);
     
 private:
     float_t scale;

@@ -2,10 +2,10 @@
 
 #include <kalman_filter/KalmanMatrixOperation.hpp>
 
-namespace interface
+namespace data_structure
 {
-    class AccelerometerIfc;
-    class GyroscopeIfc;
+    class AccelerometerData;
+    class GyroscopeData;
 
 } // data_structure
 
@@ -15,12 +15,12 @@ namespace kalman_filter
 class CalculationPitch
 {
 public:
-    CalculationPitch(interface::AccelerometerIfc& acc, interface::GyroscopeIfc& gyro);
+    CalculationPitch(data_structure::AccelerometerData& accData, data_structure::GyroscopeData& gyroData);
     float_t calculate();
     
 private:
-    interface::AccelerometerIfc& acc;
-    interface::GyroscopeIfc& gyro;
+    data_structure::AccelerometerData& accData;
+    data_structure::GyroscopeData& gyroData;
     
     KalmanMatrixOperation matrixOperation;
     float_t pitch;
