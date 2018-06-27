@@ -8,5 +8,4 @@ Info:
 - g++ (Raspbian 6.3.0-18+rpi1+deb9u1) 6.3.0 20170516
 - Use wiringPi library: git clone git://git.drogon.net/wiringPi
 
-License:
-GNU Public License (GPL)
+All problems please send mail to wendland.michal@gmail.com
